@@ -1,0 +1,49 @@
+# Ignorar pastas e arquivos de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Ambientes virtuais
+.env
+.venv/
+env/
+venv/
+ENV/
+ENV.bak/
+
+# Logs e resultados do Robot Framework
+*.log
+*.xml
+*.html
+*.png
+*.txt
+output.xml
+report.html
+log.html
+debug.log
+*.db
+
+# Arquivos temporários e de cache
+*.tmp
+*.swp
+*.bak
+.cache/
+coverage/
+*.coverage
+
+# Arquivos de configuração do sistema ou IDEs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.code-workspace
+
+# Pipenv / Poetry / Outros gerenciadores
+Pipfile.lock
+poetry.lock
+
+# Arquivos de testes gerados automaticamente
+*.robot.py
+*.output.xml
