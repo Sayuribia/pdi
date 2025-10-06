@@ -13,7 +13,7 @@ ${ADICIONAR_ITEM_CARRINHO}              add-to-cart-button
 ${SEM_GARANTIA}         //input[@aria-labelledby='attachSiNoCoverage-announce']
 ${EXCLUIR_ITEM}                locator=//span[@class='a-icon a-icon-small-trash']
 ${BOTAO_CONTINUAR_COMPRANDO}    body > div > div.a-row.a-spacing-double-large > div.a-section > div > div > form > div > div > span > span
-
+${BOTAO_LOGIN}            //span[@id='nav-link-accountList-nav-line-1']
 *** Keywords ***
 
    
@@ -111,7 +111,33 @@ Verificar se o carrinho fica vazio
     Page Should Contain    text= foi removido de Carrinho de compras. 
     Wait Until Page Contains    text= Seu carrinho da Amazon está vazio
 
+Clicar no botão "Olá, faça seu login"
+    Click Element    locator=${BOTAO_LOGIN}
 
+Inserir o email
+    Wait Until Page Contains    text= Insira um número de celular ou e-mail
+    Input Text    locator=//input[@id='ap_email_login']    text=usertest_pdi@outlook.com
 
-    
+Clicar no botão "Continuar"    
+    Click Element    locator=//input[@type='submit']
 
+Inserir a senha       
+    Input Text    locator=//input[@id='ap_password']    text=hashira's 
+
+Clicar no botão "Fazer login"
+    Click Element    locator=//input[@id='signInSubmit']
+
+Verificar se o login foi realizado com sucesso
+    Wait Until Page Contains    text= Olá, user
+
+Clicar em "Suas Listas"
+    Click Element      locator=//h2[normalize-space()='Suas Listas']
+
+Clicar em "Criar uma Lista"
+    Click Element    locator=(//a[normalize-space()='Criar uma lista'])[1]
+
+Clicar no botão "Criar"
+    Sleep     5s
+    Click Element    locator=//input[@aria-labelledby='lists-desktop-create-list-label']
+Verificar se a lista foi criada com sucesso
+    Wait Until Page Contains    text= Lista de Compras 2

@@ -47,7 +47,7 @@ Test Case 3 - Verificar se o carrinho está vazio
  
 
 
-Caso de Teste 6 - Login
+Caso de Teste 5 - Login
     [Documentation]    Esse é um teste de autenticação
     [Tags]             login
     Acessar a home page do site Amazon.com.br
@@ -58,13 +58,28 @@ Caso de Teste 6 - Login
     Clicar no botão "Fazer login"
     Verificar se o login foi realizado com sucesso
 
-Caso de Teste 7 - Lista de Desejos
+Caso de Teste 6 - Lista de Desejos
     [Documentation]    Esse é um teste para criar uma lista de desejos
     [Tags]             lista_desejo
     Acessar a home page do site Amazon.com.br
     Clicar no botão "Olá, faça seu login"
+    Inserir o email
+    Clicar no botão "Continuar"
+    Inserir a senha
+    Clicar no botão "Fazer login"
+    Clicar no botão "Olá, faça seu login"
     Clicar em "Suas Listas"
     Clicar em "Criar uma Lista"
-    INserir o nome da lsita
     Clicar no botão "Criar"
     Verificar se a lista foi criada com sucesso
+
+Caso de Teste 7 - Senha incorreta
+    [Documentation]    Esse é um teste para criar uma lista de desejos
+    [Tags]             lista_desejo
+    Acessar a home page do site Amazon.com.br
+    Clicar no botão "Olá, faça seu login"
+    Insere o email
+    Clicar em no botão "Continuar"
+    Inserir senha incorreta
+    Clicar no botão Fazer login
+    Verificar se apareceu a mensagem "Sua senha está incorreta"
