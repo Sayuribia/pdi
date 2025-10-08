@@ -48,5 +48,6 @@ Criar lista de desejos
     Quando eu fizer login com usuário válido
     E Clicar em Contas e Listas
     Quando eu acessar "Suas Listas"
+    E inserir o nome da lista
     E criar uma nova lista
     Então a lista deve ser criada com sucesso
