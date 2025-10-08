@@ -1,6 +1,6 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    String
+Library    FakerLibrary
 
 *** Variables ***
 ${SUAS_LISTAS}          //h2[normalize-space()='Suas Listas']
@@ -22,7 +22,7 @@ Inserir o nome da lista
     Sleep     5s
     Click Element    ${CAMPO_INSERIR_NOME}
     Clear Element Text    ${CAMPO_INSERIR_NOME}
-    ${nome_lista}    Generate Random String    6    [LETTERS]
+    ${nome_lista}        FakerLibrary.Name
     Set Global Variable    ${nome}    ${nome_lista}
     Input Text    ${CAMPO_INSERIR_NOME}    ${nome}
 
