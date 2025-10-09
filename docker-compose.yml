@@ -4,4 +4,17 @@ services:
     container_name: selenium-bot
     volumes:
       - .:/app
-    command: ["robot", "--outputdir", "results", "tests/"]
+      - ./results:/app/results
+    environment:
+      - BROWSER=chrome
+      - HEADLESS=true
+      - CHROME_BIN=/usr/bin/google-chrome
+      - CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
+    command: >
+      robot
+      --variable BROWSER:chrome
+      --variable HEADLESS:true
+      --output /app/results/output.xml
+      --log /app/results/log.html
+      --report /app/results/report.html
+      tests
