@@ -2,3 +2,5 @@ pandas
 selenium
 robotframework
 requests
+robotframework-seleniumlibrary
+robotframework-pabot
