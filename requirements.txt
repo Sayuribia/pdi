@@ -4,3 +4,4 @@ robotframework
 requests
 robotframework-seleniumlibrary
 robotframework-pabot
+robotframework-faker==5.0.0
