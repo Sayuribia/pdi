@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  selenium-bot:
+    build: .
+    container_name: selenium-bot
+    volumes:
+      - .:/app
+    environment:
+      - DISPLAY=:99
+    shm_size: '2gb'
