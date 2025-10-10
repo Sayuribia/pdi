@@ -1,4 +1,5 @@
-FROM python:3.11-slim
+# Use a versão estável do Debian para evitar pacotes removidos
+FROM python:3.11-slim-bookworm
 
 # Instalar dependências do sistema e Chromium
 RUN apt-get update && apt-get install -y \
@@ -8,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     chromium \
     chromium-driver \
     libnss3 \
-    libgconf-2-4 \
     libxi6 \
     libxrandr2 \
     libxcomposite1 \
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
     libgtk-3-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Corrigir caminho do Chrome e Chromedriver
+# Variáveis de ambiente para o Chrome
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 ENV PATH="${PATH}:/usr/lib/chromium/"
