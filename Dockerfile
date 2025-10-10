@@ -9,10 +9,10 @@ ENV CHROME_FOR_TESTING_BASE_URL=https://edgedl.me.gvt1.com/edgedl/chrome/chrome-
 ENV LATEST_VERSION_URL=${CHROME_FOR_TESTING_BASE_URL}/LATEST_RELEASE_LINUX64
 
 # Baixa a última versão disponível para Linux 64-bit
-RUN LATEST_VERSION=$(curl -s $LATEST_VERSION_URL) && \
+RUN LATEST_VERSION=$(curl -s https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/LATEST_RELEASE_LINUX64) && \
     echo "Versão Chrome for Testing: $LATEST_VERSION" && \
-    wget -q ${CHROME_FOR_TESTING_BASE_URL}/${LATEST_VERSION}/linux64/chrome-linux64.zip -O /tmp/chrome-linux64.zip && \
-    wget -q ${CHROME_FOR_TESTING_BASE_URL}/${LATEST_VERSION}/linux64/chromedriver-linux64.zip -O /tmp/chromedriver-linux64.zip && \
+    wget -q https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${LATEST_VERSION}/linux64/chrome-linux64.zip -O /tmp/chrome-linux64.zip && \
+    wget -q https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${LATEST_VERSION}/linux64/chromedriver-linux64.zip -O /tmp/chromedriver-linux64.zip && \
     unzip /tmp/chrome-linux64.zip -d /opt/ && \
     unzip /tmp/chromedriver-linux64.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
