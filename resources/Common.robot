@@ -3,16 +3,12 @@ Library    SeleniumLibrary    timeout=10s
 
 *** Variables ***
 ${URL}    https://www.amazon.com.br
+@{chrome_args}    --headless    --no-sandbox    --disable-dev-shm-usage    --window-size=1920,1080
 
 *** Keywords ***
 Abrir o navegador
-    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
-    Call Method    ${options}    add_argument    --headless
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --window-size=1920,1080
-    Create Webdriver    Chrome    options=${options}
-    Go To    ${URL}
+    Open Browser    ${URL}    chrome    options=${chrome_args}
+    Maximize Browser Window
 
 Fechar o navegador
     Close Browser
