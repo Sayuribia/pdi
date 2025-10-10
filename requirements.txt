@@ -1,6 +1,2 @@
-pandas
 robotframework
 robotframework-seleniumlibrary
-requests
-robotframework-pabot
-robotframework-faker==5.0.0
