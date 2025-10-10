@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     chromium-driver \
     && rm -rf /var/lib/apt/lists/*
 
-# Definir variáveis de ambiente para o Chrome
+# Variáveis de ambiente para o Chrome
 ENV CHROME_BIN=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 
@@ -17,9 +17,9 @@ ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar os arquivos do projeto
+# Copiar o projeto
 COPY . /app
 WORKDIR /app
 
-# Comando padrão
+# Comando padrão para rodar os testes
 CMD ["robot", "tests"]
