@@ -1,10 +1,10 @@
-# Imagem base com Python 3.11
 FROM python:3.11-slim
 
-# Evita prompts interativos
+# Variáveis de ambiente
 ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Sao_Paulo
 
-# Atualiza pacotes e instala dependências básicas
+# Instalar dependências do sistema
 RUN apt-get update && apt-get install -y \
     curl \
     unzip \
@@ -20,24 +20,26 @@ RUN apt-get update && apt-get install -y \
     libx11-xcb1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Adiciona a chave GPG do Google no formato moderno
+# Instalar chave e repositório do Google Chrome
 RUN mkdir -p /etc/apt/keyrings && \
-    wget -q -O /etc/apt/keyrings/google-linux-signing-key.gpg https://dl.google.com/linux/linux_signing_key.pub && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-linux-signing-key.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && apt-get install -y google-chrome-stable && \
-    rm -rf /var/lib/apt/lists/*
+    wget -q -O /etc/apt/keyrings/google.gpg https://dl.google.com/linux/linux_signing_key.pub && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
 
-# Instala o ChromeDriver compatível com a versão do Chrome
+# Instalar Google Chrome
+RUN apt-get update && apt-get install -y google-chrome-stable && rm -rf /var/lib/apt/lists/*
+
+# Obter versão compatível do ChromeDriver
 RUN CHROME_VERSION=$(google-chrome --version | sed 's/.*Google Chrome //;s/ .*//') && \
     CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d '.' -f 1) && \
     DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR) && \
+    if [ -z "$DRIVER_VERSION" ]; then echo "Erro: ChromeDriver não encontrado para versão $CHROME_MAJOR"; exit 1; fi && \
     echo "Instalando ChromeDriver versão $DRIVER_VERSION para Chrome $CHROME_VERSION" && \
-    wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip && \
+    wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
 
-# Instala Robot Framework e bibliotecas
+# Instalar Robot Framework e bibliotecas
 RUN pip install --no-cache-dir \
     robotframework \
     robotframework-seleniumlibrary \
@@ -45,12 +47,12 @@ RUN pip install --no-cache-dir \
     robotframework-jsonlibrary \
     selenium
 
-# Cria usuário não-root (opcional)
+# Criar usuário não-root
 RUN useradd -ms /bin/bash robotuser
 USER robotuser
 
-# Define diretório de trabalho
+# Diretório padrão de trabalho
 WORKDIR /home/robotuser/robot-tests
 
-# Entrypoint padrão (pode ser alterado)
+# Comando padrão
 CMD ["robot", "--outputdir", "results", "."]
