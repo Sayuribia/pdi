@@ -6,8 +6,13 @@ ${URL}    https://www.amazon.com.br
 
 *** Keywords ***
 Abrir o navegador
-    Open Browser    ${URL}    chrome    options=add_argument(--headless);add_argument(--no-sandbox);add_argument(--disable-dev-shm-usage)
-    Maximize Browser Window
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    Call Method    ${options}    add_argument    --headless
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    Call Method    ${options}    add_argument    --window-size=1920,1080
+    Create Webdriver    Chrome    options=${options}
+    Go To    ${URL}
 
 Fechar o navegador
     Close Browser
