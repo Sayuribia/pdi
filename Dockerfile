@@ -21,9 +21,9 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Baixa e instala o Chrome 119 manualmente
-RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_119.0.6045.159-1_amd64.deb && \
-    apt install -y ./google-chrome-stable_119.0.6045.159-1_amd64.deb && \
-    rm google-chrome-stable_119.0.6045.159-1_amd64.deb
+RUN wget https://repo.armbian.com/apt/pool/noble-desktop/g/google-chrome-stable/google-chrome-stable_141.0.7390.54-1_amd64.deb && \
+    apt install -y ./google-chrome-stable_141.0.7390.54-1_amd64.deb && \
+    rm google-chrome-stable_141.0.7390.54-1_amd64.deb
 
 # Instala o ChromeDriver correspondente
 ENV CHROMEDRIVER_VERSION=119.0.6045.159
