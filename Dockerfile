@@ -17,19 +17,15 @@ RUN apt-get update && apt-get install -y \
     libatk-bridge2.0-0 \
     libgtk-3-0 \
     libx11-xcb1 \
+    xdg-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Adiciona chave e repositório do Google Chrome
-RUN mkdir -p /etc/apt/keyrings && \
-    wget -q -O /etc/apt/keyrings/google.gpg https://dl.google.com/linux/linux_signing_key.pub && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
+# Baixa e instala o Chrome 119 manualmente
+RUN wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_119.0.6045.159-1_amd64.deb && \
+    apt install -y ./google-chrome-stable_119.0.6045.159-1_amd64.deb && \
+    rm google-chrome-stable_119.0.6045.159-1_amd64.deb
 
-# Instala versão específica do Google Chrome (119)
-RUN apt-get update && \
-    apt-get install -y google-chrome-stable=119.0.6045.159-1 && \
-    rm -rf /var/lib/apt/lists/*
-
-# Instala versão correspondente do ChromeDriver
+# Instala o ChromeDriver correspondente
 ENV CHROMEDRIVER_VERSION=119.0.6045.159
 
 RUN wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip && \
@@ -37,7 +33,7 @@ RUN wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
 
-# Instala Robot Framework e libs
+# Instala Robot Framework e bibliotecas
 RUN pip install --no-cache-dir \
     robotframework \
     robotframework-seleniumlibrary \
@@ -52,5 +48,4 @@ USER robotuser
 # Define diretório de trabalho
 WORKDIR /home/robotuser/robot-tests
 
-# Comando padrão
 CMD ["robot", "--outputdir", "results", "."]
