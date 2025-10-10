@@ -22,4 +22,4 @@ COPY . /app
 WORKDIR /app
 
 # Comando padrão para rodar os testes
-CMD ["robot", "tests"]
+CMD ["robot", "tests/amazon_tests_gherkin_bdd.robot"]
