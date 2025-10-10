@@ -28,13 +28,10 @@ RUN mkdir -p /etc/apt/keyrings && \
 # Instalar Google Chrome
 RUN apt-get update && apt-get install -y google-chrome-stable && rm -rf /var/lib/apt/lists/*
 
-# Obter versão compatível do ChromeDriver
-RUN CHROME_VERSION=$(google-chrome --version | sed 's/.*Google Chrome //;s/ .*//') && \
-    CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d '.' -f 1) && \
-    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_MAJOR) && \
-    if [ -z "$DRIVER_VERSION" ]; then echo "Erro: ChromeDriver não encontrado para versão $CHROME_MAJOR"; exit 1; fi && \
-    echo "Instalando ChromeDriver versão $DRIVER_VERSION para Chrome $CHROME_VERSION" && \
-    wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip && \
+# Instala versão compatível do ChromeDriver (141.0.7390.0)
+ENV CHROMEDRIVER_VERSION=141.0.7390.0
+
+RUN wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm /tmp/chromedriver.zip
