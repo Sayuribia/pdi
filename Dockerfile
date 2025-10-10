@@ -1,51 +1,35 @@
 FROM python:3.11-slim
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV TZ=America/Sao_Paulo
+# Dependências básicas
+RUN apt-get update && apt-get install -y wget unzip curl gnupg2 libnss3 libxss1 libasound2 libatk1.0-0 libcups2 libx11-xcb1 libxcomposite1 libxdamage1 libxrandr2 libgbm1 libgtk-3-0 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Instala dependências do sistema
-RUN apt-get update && apt-get install -y \
-    curl \
-    wget \
-    unzip \
-    gnupg \
-    ca-certificates \
-    fonts-liberation \
-    libnss3 \
-    libxss1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    libx11-xcb1 \
-    xdg-utils \
-    && rm -rf /var/lib/apt/lists/*
+# Define variáveis para as URLs e versão
+ENV CHROME_FOR_TESTING_BASE_URL=https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing
+ENV LATEST_VERSION_URL=${CHROME_FOR_TESTING_BASE_URL}/LATEST_RELEASE_LINUX64
 
-# Baixa e instala o Chrome 119 manualmente
-RUN wget https://repo.armbian.com/apt/pool/noble-desktop/g/google-chrome-stable/google-chrome-stable_141.0.7390.54-1_amd64.deb && \
-    apt install -y ./google-chrome-stable_141.0.7390.54-1_amd64.deb && \
-    rm google-chrome-stable_141.0.7390.54-1_amd64.deb
-
-# Instala o ChromeDriver correspondente
-ENV CHROMEDRIVER_VERSION=119.0.6045.159
-
-RUN wget -q -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip && \
-    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+# Baixa a última versão disponível para Linux 64-bit
+RUN LATEST_VERSION=$(curl -s $LATEST_VERSION_URL) && \
+    echo "Versão Chrome for Testing: $LATEST_VERSION" && \
+    wget -q ${CHROME_FOR_TESTING_BASE_URL}/${LATEST_VERSION}/linux64/chrome-linux64.zip -O /tmp/chrome-linux64.zip && \
+    wget -q ${CHROME_FOR_TESTING_BASE_URL}/${LATEST_VERSION}/linux64/chromedriver-linux64.zip -O /tmp/chromedriver-linux64.zip && \
+    unzip /tmp/chrome-linux64.zip -d /opt/ && \
+    unzip /tmp/chromedriver-linux64.zip -d /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm /tmp/chromedriver.zip
+    rm /tmp/chrome-linux64.zip /tmp/chromedriver-linux64.zip
 
-# Instala Robot Framework e bibliotecas
-RUN pip install --no-cache-dir \
-    robotframework \
-    robotframework-seleniumlibrary \
-    robotframework-requests \
-    robotframework-jsonlibrary \
-    selenium
+# Link para facilitar o uso do Chrome
+ENV PATH="/opt/chrome-linux64/:${PATH}"
 
-# Cria usuário não-root
-RUN useradd -ms /bin/bash robotuser
-USER robotuser
+# Instala o Robot Framework e bibliotecas
+RUN pip install --no-cache-dir robotframework selenium
 
-# Define diretório de trabalho
-WORKDIR /home/robotuser/robot-tests
+# Define o ChromeDriver no PATH para o Selenium
+ENV CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
 
-CMD ["robot", "--outputdir", "results", "."]
+# Copie seus testes ou scripts aqui
+# COPY ./tests /tests
+# WORKDIR /tests
+
+# Comando default (pode alterar)
+CMD ["robot", "--version"]
