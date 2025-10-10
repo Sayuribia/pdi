@@ -22,6 +22,9 @@ ENV PATH="/opt/chrome-linux64/:${PATH}"
 # Instala o Robot Framework e bibliotecas
 RUN pip install --no-cache-dir robotframework selenium
 
+# Instala Robot Framework e as bibliotecas necessárias
+RUN pip install robotframework robotframework-seleniumlibrary robotframework-faker selenium
+
 # Define o ChromeDriver no PATH para o Selenium
 ENV CHROMEDRIVER_PATH=/usr/local/bin/chromedriver
 
