@@ -1,6 +1,4 @@
 robotframework
 robotframework-seleniumlibrary
-robotframework-faker 
-robotframework-requests==0.5.0
-robotframework-pageobjects
-gherkin2robotframework
+robotframework-faker
+robotframework-requests>=0.9.4
