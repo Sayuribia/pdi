@@ -12,9 +12,8 @@ Abrir o navegador
     Call Method    ${options}    add_argument    --disable-dev-shm-usage
     Call Method    ${options}    add_argument    --window-size=1920x1080
     Set Attribute    ${options}    binary_location    /usr/bin/chromium
-    ${driver}=    Create WebDriver    Chrome    options=${options}
+    Create WebDriver    Chrome    options=${options}
     Go To    ${URL}
-    Maximize Browser Window
 
 Fechar o navegador
     Close Browser
