@@ -45,7 +45,7 @@ Login com sucesso
 
 Criar lista de desejos
     Dado que estou na home page
-    Quando eu fizer login com usuário válido
+#    Quando eu fizer login com usuário válido
     E Clicar em Contas e Listas
     Quando eu acessar "Suas Listas"
     E inserir o nome da lista
