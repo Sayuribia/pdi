@@ -32,6 +32,7 @@ debug.log
 .cache/
 coverage/
 *.coverage
+pdi/results/
 
 # Arquivos de configuração do sistema ou IDEs
 .DS_Store
