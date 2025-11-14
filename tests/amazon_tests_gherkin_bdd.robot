@@ -33,15 +33,15 @@ Adicionar e remover produto do carrinho
     Quando eu remover o produto do carrinho
     Então o carrinho deve estar vazio 
 
-Login com sucesso
-    Dado que estou na home page
-    Quando eu fizer login com usuário válido
-    Então devo ver a mensagem "Olá, user"
-
 Login com senha incorreta
     Dado que estou na home page
     Quando eu fizer login com senha incorreta
     Então devo ver a mensagem "Sua senha está incorreta"
+
+Login com sucesso
+    Dado que estou na home page
+    Quando eu fizer login com usuário válido
+    Então devo ver a mensagem "Olá, user"
 
 Criar lista de desejos
     Dado que estou na home page
